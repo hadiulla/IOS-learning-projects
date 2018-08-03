@@ -47,10 +47,14 @@ class ViewController: UIViewController {
         
     }
     
-    @IBAction func sliderMoved(_ slider: UISlider){
-        //print("The value of slider is \(Int(slider.value))")
-        currentValue = lroundf(slider.value)
+    @IBAction func startOver() {
+        // totalScoreLabel.text = "0"
+        // roundLabel.text = "0"
+        level = 0
+        totalScore = 0
+        changeLevel(currentScore: 0)
     }
+    
 
 }
 
