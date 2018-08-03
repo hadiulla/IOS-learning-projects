@@ -4,18 +4,25 @@ class ViewController: UIViewController {
 
     var currentValue = 0
     var targetValue = 0
+    var level = 0
+    var totalScore = 0
     @IBOutlet weak var slider : UISlider!
     @IBOutlet weak var targetScore: UILabel!
+    @IBOutlet weak var totalScoreLabel: UILabel!
+    @IBOutlet weak var roundLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentValue = lroundf(slider.value)
-        //changeLevel()
+        changeLevel(currentScore: 0)
     }
     
-    func changeLevel(){
+    func changeLevel(currentScore: Int){
         targetValue = 1 + Int(arc4random_uniform(100))
-        
+        targetScore.text = "\(targetValue)"
+        totalScore += currentScore
+        totalScoreLabel.text = "\(totalScore)"
+        roundLabel.text = "\(level)"
+        level += 1
     }
 
     override func didReceiveMemoryWarning() {
@@ -24,13 +31,19 @@ class ViewController: UIViewController {
     }
     
     @IBAction func showAlert(){
-        //let alert = UIAlertController(title: "Silder value", message: "The value of slider is \(currentValue)", preferredStyle: .alert)
-        //let action = UIAlertAction(title: "Awesome", style: .default, handler: nil)
-        
-        //alert.addAction(action)
-        //present(alert,animated: true,completion: nil)
+        var currentScore = 0
         currentValue = lroundf(slider.value)
-        targetScore.text = "\(currentValue)"
+        if (Double(currentValue) > Double(targetValue)){
+            currentScore = lround(((Double(targetValue)/Double(currentValue))*100))
+        }else{
+            currentScore = lround(((Double(currentValue)/Double(targetValue))*100))
+        }
+        let alert = UIAlertController(title: "Silder value", message: "Expected Value = \(targetValue)\nCurrent value = \(currentValue)\nYou got \(currentScore) points", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Awesome", style: .default, handler: nil)
+        
+        alert.addAction(action)
+        present(alert,animated: true,completion: nil)
+        changeLevel(currentScore: currentScore)
         
     }
     
